@@ -1,0 +1,25 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-image: url("utopia.png"); /* Set background image path */
+    background-size: cover; /* Scale image to cover the entire viewport */
+    background-position: center; /* Center the image horizontally and vertically */
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Set minimum height for full viewport */
+  }
+  
+  .clock {
+    font-size: 72px;
+    color: #333; /* Dark gray text */
+    text-align: center;
+  }
+  
+  .clock span:not(:nth-child(2)) {
+    margin: 0 10px; /* Spacing between clock elements */
+  }
+  
