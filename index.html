@@ -25,13 +25,61 @@
             top: 20px;
             right: 20px;
             background-color: rgba(255, 255, 255, 0.7);
-            padding: 10px;
+            padding: 20px;
             border-radius: 10px;
             font-family: Arial, sans-serif;
-            font-size: 14px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .weather-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
         }
 
         /* Add custom CSS styles here if needed */
+
+        /* Modified CSS for time animation */
+        @keyframes pulseSkyBlue {
+          0%, 100% {
+            text-shadow: 0 0 15px rgba(129, 196, 255, 0.7);
+          }
+          50% {
+            text-shadow: 0 0 40px rgba(129, 196, 255, 1);
+          }
+        }
+
+        @keyframes pulseYaleBlue {
+          0%, 100% {
+            text-shadow: 0 0 15px rgba(22, 88, 142, 0.7);
+          }
+          50% {
+            text-shadow: 0 0 40px rgba(22, 88, 142, 1);
+          }
+        }
+
+        @keyframes pulseCrimson {
+          0%, 100% {
+            text-shadow: 0 0 15px rgba(231, 34, 46, 0.7);
+          }
+          50% {
+            text-shadow: 0 0 40px rgba(231, 34, 46, 1);
+          }
+        }
+
+        #day {
+          animation: pulseSkyBlue 60s infinite;
+        }
+
+        #date {
+          animation: pulseYaleBlue 60s infinite;
+        }
+
+        #time {
+          animation: pulseCrimson 60s infinite;
+        }
     </style>
 </head>
 <body>
@@ -47,7 +95,11 @@
 
     <!-- Weather Widget -->
     <div class="weather-widget" id="weather-widget">
-        Loading...
+        <img src="" alt="Weather Icon" class="weather-icon">
+        <div class="weather-info">
+            <div id="temperature"></div>
+            <div id="description"></div>
+        </div>
     </div>
 
     <!-- Audio Element -->
@@ -91,16 +143,23 @@
         function fetchWeather() {
             const apiKey = '8f6c1a459c21fbd3f465cee513e5898e';
             const city = 'Vermont'; // Example city
-            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
 
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
                     const temperature = data.main.temp;
                     const description = data.weather[0].description;
+                    const iconCode = data.weather[0].icon;
 
                     const weatherWidget = document.getElementById('weather-widget');
-                    weatherWidget.innerHTML = `Temperature: ${temperature}°C<br>Description: ${description}`;
+                    const weatherIcon = weatherWidget.querySelector('.weather-icon');
+                    const weatherTemperature = weatherWidget.querySelector('#temperature');
+                    const weatherDescription = weatherWidget.querySelector('#description');
+
+                    weatherIcon.src = `http://openweathermap.org/img/w/${iconCode}.png`;
+                    weatherTemperature.innerHTML = `Temperature: ${temperature}°F`;
+                    weatherDescription.innerHTML = `Description: ${description}`;
                 })
                 .catch(error => {
                     console.error('Error fetching weather data:', error);
@@ -114,7 +173,6 @@
         setInterval(fetchWeather, 30 * 60 * 1000); // Update every 30 minutes
     </script>
 
-
     <!-- Embed the first Spotify playlist -->
     <div class="spotify-container">
         <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4OwfFiqtQSvhYBS2P0L5gk?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -124,9 +182,6 @@
     <div class="spotify-container second">
         <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5gxjTIvGi0HTRjVdJ8VBg2?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
-
-    <script src="script.js"></script>
-
-    
+    <script src="script.js"></script> 
 </body>
 </html>
