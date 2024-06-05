@@ -30,6 +30,8 @@
             font-family: Arial, sans-serif;
             font-size: 14px;
         }
+
+        /* Add custom CSS styles here if needed */
     </style>
 </head>
 <body>
@@ -48,7 +50,43 @@
         Loading...
     </div>
 
+    <!-- Audio Element -->
+    <audio id="audio" src="your-audio-file.mp3"></audio>
+
+    <!-- Element to Trigger Audio Playback -->
+    <div id="audio-trigger">Hover over me to play audio</div>
+
     <script>
+        // Function to update time
+        function updateTime() {
+            const now = new Date();
+            const dayElement = document.getElementById('day');
+            const dateElement = document.getElementById('date');
+            const timeElement = document.getElementById('time');
+            
+            const dayString = now.toLocaleDateString('en-US', { weekday: 'long' });
+            const dateString = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            
+            dayElement.textContent = dayString;
+            dateElement.textContent = dateString;
+            timeElement.textContent = timeString;
+        }
+
+        // Update time every second
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Function to play audio
+        function playAudio() {
+            var audio = document.getElementById('audio');
+            audio.play();
+        }
+
+        // Add event listener to trigger audio playback on hover
+        var audioTrigger = document.getElementById('audio-trigger');
+        audioTrigger.addEventListener('mouseenter', playAudio);
+
         // Fetch weather data from OpenWeatherMap API
         function fetchWeather() {
             const apiKey = '8f6c1a459c21fbd3f465cee513e5898e';
@@ -75,6 +113,7 @@
         fetchWeather(); // Initial fetch
         setInterval(fetchWeather, 30 * 60 * 1000); // Update every 30 minutes
     </script>
+
 
     <!-- Embed the first Spotify playlist -->
     <div class="spotify-container">
